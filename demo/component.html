@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<button-counter></button-counter>
+		<button-counter></button-counter>
+		<button-counter></button-counter>
+		<button-counter></button-counter>
+
+		<alert-box>你真是个小可爱</alert-box>
+	</div>
+	<script type="text/javascript">
+		Vue.component('button-counter',{
+			data:function(){
+				return{
+					count:0
+				}
+			},
+			template:`<button v-on:click="count++">You click me 
+				{{ count }} times.</button>`
+		});
+		Vue.component('alert-box',{
+			template:` 
+					<div class="demo-alert-box">
+						<strong>Error!</strong>
+						<slot></slot>
+					</div>
+				`
+		})
+		var app = new Vue({el:'#app'})
+	</script>
+</body>
+</html>

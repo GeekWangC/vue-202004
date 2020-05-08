@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>FORM DEMO</title>
+	<!-- 开发环境版本 -->
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+</head>
+<body>
+	<div id="app">
+		<input type="checkbox" name="" id="wangchao" value="wangchao" v-model="names">
+		<label for="wangchao">wangchao</label>
+		<input type="checkbox" name="" id="shancong" value="shancong" v-model="names">
+		<label for="shancong">shancong</label>
+		<input type="checkbox" name="" id="zhouwenjuan" value="zhouwenjuan" v-model="names">
+		<label for="zhouwenjuan">zhouwenjuan</label>
+		<input type="checkbox" name="" id="zhoujiao" value="zhoujiao" v-model="names">
+		<label for="zhoujiao">zhoujiao</label>
+		<span>{{names}}</span>
+	</div>
+	<script type="text/javascript">
+		var app = new Vue({
+			el:"#app",
+			data:{
+				names:[]
+			}
+		})
+	</script>
+</body>
+</html>

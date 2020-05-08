@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>hello</title>
+	<!-- 开发环境版本 -->
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+	<!-- 生产环境版本 优化尺寸和速度 -->
+	<!-- <script type="text/javascript" src="https://cdn/jsdelivr.net/npm/vue"></script> -->
+</head>
+<body>
+	<div id="app" v-if="seen" v-bind:title="message">
+		{{ reverseMessage }}
+		<ul>
+			<todo-item 
+				v-for="todo,index in todos"
+				v-bind:todo="todo"
+				v-bind:key="index"
+			></todo-item>
+		</ul>
+		<button v-on:click="reversesMessage">天啊，反转</button>
+		<input type="text" name="" v-model="message">
+		<div>
+			{{ now }}
+		</div>
+		<div>
+			<p>Ask a yes/no question:
+				<input type="" name="" v-model="question">
+			</p>
+			<p>{{ answer }}</p>
+		</div>
+	</div>
+	<script type="text/javascript">
+		Vue.component('todo-item',{
+			props:['todo'],
+			template:'<li>{{ todo.text }}</li>'
+		})
+	</script>
+	<script type="text/javascript">
+		var app = new Vue({
+			el:'#app',
+			data:{
+				message:`Hello WangChao ${new Date().toLocaleString()}`,
+				seen:true,
+				todos:[
+					{text:'学习js'},{text:'学习Vue'},{text:'整个niu'}
+				],
+				question:"一头小猪🐷",
+				answer:"笨死了"
+			},
+			created:function(){
+				this.debouncedGetAnswer = _.debounce(this.getAnswer,500)
+			},
+			methods:{
+				reversesMessage:function(){
+					this.message = this.message.split('').reverse().join('');
+				},
+				getAnswer:function(){
+					this.answer = '想想。。。';
+					var vm = this;
+					axios.get('https://yesno.wtf/api')
+						.then(function(response){
+							vm.answer = _.capitalize(response.data.answer)
+						})
+						.catch(function(error){
+							vm.answer = "报错了"
+						})
+				}
+			},
+			computed:{
+				now:function(){
+					// 不是响应式依赖，该计算属性值不会更新
+					return Date.now();
+				},
+				reverseMessage:function(){
+					return this.message.split('').reverse().join('');
+				},
+			},
+			watch:{
+				question:function(newQ,oldQ){
+					this.answer ="等会儿";
+					this.debouncedGetAnswer();
+				}
+			}
+		})
+	</script>
+</body>
+</html>
